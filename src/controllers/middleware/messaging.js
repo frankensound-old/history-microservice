@@ -8,12 +8,16 @@ module.exports = {
     connectQueue: async function () {
         try {
 
-            connection = await amqp.connect(process.env["RABBITMQ"]);
+            connection = await amqp.connect("amqps://zenjpxkx:wi1QXhribj7Rpag3L9nrqCOdOFSZoIt3@hawk.rmq.cloudamqp.com/zenjpxkx", {
+                username: "zenjpxkx",
+                password: "wi1QXhribj7Rpag3L9nrqCOdOFSZoIt3",
+                virtualHost: "zenjpxkx"
+            });
             channel = await connection.createChannel();
 
-            await channel.assertQueue(process.env["QUEUE"]);
+            await channel.assertQueue(process.env["SONGS_QUEUE"]);
 
-            channel.consume(process.env["QUEUE"], consumeData);
+            await channel.consume(process.env["SONGS_QUEUE"], consumeData);
 
             function consumeData(data) {
                 console.log("Data received : ", `${Buffer.from(data.content)}`);

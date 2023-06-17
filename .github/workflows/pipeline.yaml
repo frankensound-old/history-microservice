@@ -66,7 +66,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/songs-microservice:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/history-microservice:latest
 
   deploy:
     needs: [ test, publish, snyk-docker-image, snyk-static-code ]

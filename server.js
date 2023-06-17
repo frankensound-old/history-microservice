@@ -1,17 +1,22 @@
 const express = require("express")
 require('dotenv').config()
-const {connectQueue} = require("./src/controllers/middleware/messaging.middleware")
-const historyRouter = require("./src/routes/history.route")
+const {connectQueue} = require("./src/controllers/middleware/messaging")
 const {Sequelize} = require('sequelize')
 
-const sequelize = new Sequelize(process.env["DB_NAME"], process.env["DB_USER"], process.env["DB_PASS"], {
-    host: process.env["DB_HOST"],
-    dialect: 'postgres'
-});
+const sequelize = new Sequelize(
+    {
+        port: 5432,
+        username: process.env["USERNAME"],
+        password: process.env["PASSWORD"],
+        host: process.env["HOST"],
+        name: process.env["NAME"],
+        dialect: 'postgres',
+        database: "history",
+        encrypted:true
+    });
 
 const app = express();
 app.use(express.json());
-app.use('/history', historyRouter);
 
 async function ConnectToDatabase() {
     try {
